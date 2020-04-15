@@ -61,7 +61,41 @@
             </v-icon>
           </v-avatar> -->
         <v-container>
-          <v-row justify="center">
+          <template>
+            <v-card>
+              <v-card-title>
+                Selecione os serviços
+                <v-spacer></v-spacer>
+                <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Buscar"
+                  single-line
+                  hide-details
+                ></v-text-field>
+              </v-card-title>
+              <template>
+                <div>
+                  <v-data-table
+                    :headers="headers"
+                    :items="desserts"
+                    :search="search"
+                    :single-select="singleSelect"
+                    item-key="name"
+                    show-select
+                  >
+                    <template v-slot:item.selecionado="{ item }">
+                      <v-simple-checkbox
+                        v-model="item.selecionado"
+                        disabled
+                      ></v-simple-checkbox>
+                    </template>
+                  </v-data-table>
+                </div>
+              </template>
+            </v-card>
+          </template>
+          <!-- <v-row justify="center">
             <v-card>
               <v-card-title>
                 Selecionar Serviços
@@ -80,22 +114,9 @@
                 :search="search"
               ></v-data-table>
             </v-card>
-          </v-row>
+          </v-row> -->
         </v-container>
 
-        <!-- <v-banner single-line :sticky="sticky">
-
-          <v-row class="fill-width">
-            <v-text-field label="Tratamento"></v-text-field>
-            <v-text-field label="Descrição"></v-text-field>
-            <v-btn  text color="deep-purple accent-4">Adicionar</v-btn>
-          </v-row> -->
-
-        <!-- <template v-slot:actions>
-            <v-btn text color="deep-purple accent-4">Adicionar</v-btn>
-          </template> -->
-
-        <!--</v-banner> -->
         <v-spacer></v-spacer>
 
         <v-row class="mx-2">
@@ -148,18 +169,20 @@ export default {
     servicos: ["Reparação", "Canal", "Limpeza", "Clareamento"],
 
     search: "",
+    singleSelect: false,
+    selected: [],
     headers: [
       {
         text: "Dessert (100g serving)",
         align: "start",
-        filterable: false,
-        value: "name"
+        sortable: false,
+        value: "name",
       },
       { text: "Calories", value: "calories" },
       { text: "Fat (g)", value: "fat" },
       { text: "Carbs (g)", value: "carbs" },
       { text: "Protein (g)", value: "protein" },
-      { text: "Iron (%)", value: "iron" }
+      { text: "Iron (%)", value: "iron" },
     ],
     desserts: [
       {
@@ -168,7 +191,8 @@ export default {
         fat: 6.0,
         carbs: 24,
         protein: 4.0,
-        iron: "1%"
+        iron: "1%",
+        selecionado: false,
       },
       {
         name: "Ice cream sandwich",
@@ -176,7 +200,8 @@ export default {
         fat: 9.0,
         carbs: 37,
         protein: 4.3,
-        iron: "1%"
+        iron: "1%",
+        selecionado: false,
       },
       {
         name: "Eclair",
@@ -184,7 +209,8 @@ export default {
         fat: 16.0,
         carbs: 23,
         protein: 6.0,
-        iron: "7%"
+        iron: "7%",
+        selecionado: false,
       },
       {
         name: "Cupcake",
@@ -192,7 +218,7 @@ export default {
         fat: 3.7,
         carbs: 67,
         protein: 4.3,
-        iron: "8%"
+        iron: "8%",
       },
       {
         name: "Gingerbread",
@@ -200,7 +226,8 @@ export default {
         fat: 16.0,
         carbs: 49,
         protein: 3.9,
-        iron: "16%"
+        iron: "16%",
+        selecionado: false,
       },
       {
         name: "Jelly bean",
@@ -208,7 +235,8 @@ export default {
         fat: 0.0,
         carbs: 94,
         protein: 0.0,
-        iron: "0%"
+        iron: "0%",
+        selecionado: false,
       },
       {
         name: "Lollipop",
@@ -216,7 +244,8 @@ export default {
         fat: 0.2,
         carbs: 98,
         protein: 0,
-        iron: "2%"
+        iron: "2%",
+        selecionado: false,
       },
       {
         name: "Honeycomb",
@@ -224,7 +253,8 @@ export default {
         fat: 3.2,
         carbs: 87,
         protein: 6.5,
-        iron: "45%"
+        iron: "45%",
+        selecionado: false,
       },
       {
         name: "Donut",
@@ -232,7 +262,8 @@ export default {
         fat: 25.0,
         carbs: 51,
         protein: 4.9,
-        iron: "22%"
+        iron: "22%",
+        selecionado: false,
       },
       {
         name: "KitKat",
@@ -240,10 +271,11 @@ export default {
         fat: 26.0,
         carbs: 65,
         protein: 7,
-        iron: "6%"
-      }
-    ]
-  })
+        iron: "6%",
+        selecionado: false,
+      },
+    ],
+  }),
 };
 </script>
 
