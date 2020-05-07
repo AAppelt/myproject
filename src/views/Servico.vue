@@ -59,7 +59,7 @@
             <v-col cols="12" sm="4" md="4">
               <v-text-field
                 class="mx-2"
-                label="Código Serviço Município"
+                label="Código Serviço"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="4" md="4">

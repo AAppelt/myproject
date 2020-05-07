@@ -3,105 +3,11 @@
     <v-row class="fill-height">
       <!-- DESTAQUES OU ULTIMOS ATENDIDOS -->
       <v-row no-gutters justify="center">
-        <!-- <v-card class="mx-auto"> -->
-        <template>
-          <v-container>
-            <v-sheet class="mx-auto">
-              <v-slide-group v-model="model" class="pa-4" show-arrows>
-                <v-slide-item v-for="item in cards" :key="item" v-slot:default="{ active, toggle }">
-                  <v-card
-                    :color="active ? 'primary' : 'grey lighten-1'"
-                    class="ma-4"
-                    height="200"
-                    width="100"
-                    @click="toggle"
-                  >
-                    <v-row class="fill-height" align="center" justify="center">
-                      <v-scale-transition>
-                        <v-icon
-                          v-if="active"
-                          color="white"
-                          size="48"
-                          v-text="'mdi-close-circle-outline'"
-                        ></v-icon>
-                      </v-scale-transition>
-                    </v-row>
-                  </v-card>
-                </v-slide-item>
-              </v-slide-group>
-
-              <v-expand-transition>
-                <v-sheet v-if="model != null" color="grey lighten-4" height="auto" tile>
-                  <v-row class="fill-height" align="center" >
-                    <!-- <v-card class="fill-height" justify="center"> -->
-                    <!-- <v-card-title class="title">Selecionado Item {{ model + 1 }}</v-card-title> -->
-                    <v-col cols="12" sm="2" md="2">
-                      <v-img
-                      src="https://randomuser.me/api/portraits/women/60.jpg"
-                      class="white--text align-end"
-                      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                      height="100px"
-                    ></v-img>
-
-                    </v-col>
-
-                     <v-col cols="12" sm="5" md="5">
-                       <v-card-title class="title">Nome {{ model + 1 }}</v-card-title>
-                     </v-col>
-
-                     <v-col cols="12" sm="5" md="5">
-                       <v-card-subtitle class="subtitle">{{text}}</v-card-subtitle>
-                     </v-col>
-                    
-                    <!-- <v-card-text>
-
-                    </v-card-text>
-                   
-                    </v-card> -->
-                  </v-row>
-                </v-sheet>
-              </v-expand-transition>
-            </v-sheet>
-          </v-container>
-        </template>
-
-        <!-- <v-container fluid>
-        <v-row dense>
-          <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-            <v-card>
-              <v-img
-                :src="card.src"
-                class="white--text align-end"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="200px"
-              >
-                <v-card-title v-text="card.title"></v-card-title>
-              </v-img>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-
-                <v-btn icon>
-                  <v-icon>mdi-heart</v-icon>
-                </v-btn>
-
-                <v-btn icon>
-                  <v-icon>mdi-bookmark</v-icon>
-                </v-btn>
-
-                <v-btn icon>
-                  <v-icon>mdi-share-variant</v-icon>
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-        </v-container>-->
-        <!-- </v-card> -->
+      
       </v-row>
 
       <!-- LISTA PADRAO -->
-      <v-card class="mx-auto">
+      <!-- <v-card class="mx-auto">
         <v-list nav three-line>
           <template v-for="(item, index) in cards">
             <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
@@ -135,7 +41,7 @@
             </v-list-item>
           </template>
         </v-list>
-      </v-card>
+      </v-card> -->
 
       <!-- Expsansion List -->
       <!-- <v-expansion-panels popout focusable>
@@ -154,10 +60,10 @@
             </v-card-actions>
           </v-expansion-panel-content>
         </v-expansion-panel>
-      </v-expansion-panels>-->
+      </v-expansion-panels> -->
 
       <!-- CARDS -->
-      <!-- <v-container fluid>
+      <v-container fluid>
         <v-row dense>
           <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
             <v-card>
@@ -170,10 +76,10 @@
                 <v-card-title v-text="card.title"></v-card-title>
               </v-img>
 
-              <v-card-actions>
+              <v-card-actions style="background:grey">
                 <v-spacer></v-spacer>
 
-                <v-btn icon>
+                <v-btn icon @click="prontuario = !prontuario">
                   <v-icon>mdi-heart</v-icon>
                 </v-btn>
 
@@ -188,13 +94,13 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>-->
+      </v-container>
     </v-row>
 
     <v-btn large bottom color="pink" dark fab fixed right @click="dialog = !dialog">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-dialog v-model="prontuario" width="60%">
+    <v-dialog v-model="prontuario" width="70%">
       <v-container>
         <v-card>
           <v-card-title class="grey darken-2">Prontuário Cliente</v-card-title>

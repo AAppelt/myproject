@@ -1,6 +1,42 @@
 <template>
   <v-row class="fill-height">
-    <v-row justify="center">
+    <template>
+      <v-card>
+        <v-card-title>
+          <!-- Selecione os serviços
+          <v-spacer></v-spacer> -->
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Buscar"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <template>
+          <div>
+            <v-data-table
+              :headers="headers"
+              :items="desserts"
+              :search="search"
+              :single-select="singleSelect"
+              item-key="name"
+              show-select
+            >
+              <template v-slot:item.selecionado="{ item }">
+                <v-simple-checkbox
+                  v-model="item.selecionado"
+                  disabled
+                ></v-simple-checkbox>
+              </template>
+            </v-data-table>
+          </div>
+        </template>
+      </v-card>
+    </template>
+
+    <!-- Lista Padrao com painel expansivo -->
+    <!-- <v-row justify="center">
       <v-expansion-panels popout focusable>
         <v-expansion-panel v-for="(items, i) in 10" :key="i">
           <v-expansion-panel-header>Contrato {{ i }}</v-expansion-panel-header>
@@ -23,7 +59,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-    </v-row>
+    </v-row> -->
     <v-btn
       large
       bottom
