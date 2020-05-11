@@ -1,102 +1,117 @@
 <template>
   <v-row class="fill-height">
-    <template>
-      <v-data-table
-        :headers="headers"
-        :items="desserts"
-        :search="search"
-        :single-select="singleSelect"
-        item-key="name"
-        class="elevation-1"
-        show-select
-        multi-sort
-      >
-        <template v-slot:top>
-          <v-toolbar flat color="white">
-            <v-toolbar-title>Contratos</v-toolbar-title>
-            <v-divider class="mx-4" inset vertical></v-divider>
+    <v-row class="fill-height">
+      <!-- <template>
+          <v-breadcrumbs :items="items">
+            <template v-slot:item="{ item }">
+              <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
+                {{ item.text.toUpperCase() }}
+              </v-breadcrumbs-item>
+            </template>
+          </v-breadcrumbs>
+        </template>
+       -->
 
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Buscar"
-              single-line
-              hide-details
-            ></v-text-field>
+      <template>
+        <!--  :single-select="singleSelect" -->
+        <!-- show-select -->
+        <v-data-table
+          :headers="headers"
+          :items="desserts"
+          :search="search"
+          item-key="name"
+          class="elevation-1"
+          multi-sort
+        >
+          <template v-slot:top>
+            <v-toolbar flat color="white">
+              <v-toolbar-title>Contratos</v-toolbar-title>
+              <v-divider class="mx-4" inset vertical></v-divider>
 
-            <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="70%">
-              <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark class="mb-2" v-on="on"
-                  >Cadastrar</v-btn
-                >
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="headline">{{ formTitle }}</span>
-                </v-card-title>
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Buscar"
+                single-line
+                hide-details
+              ></v-text-field>
 
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field
-                          v-model="editedItem.name"
-                          label="Dessert name"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field
-                          v-model="editedItem.calories"
-                          label="Calories"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field
-                          v-model="editedItem.fat"
-                          label="Fat (g)"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
-                          v-model="editedItem.carbs"
-                          label="Carbs (g)"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
-                          v-model="editedItem.protein"
-                          label="Protein (g)"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="close"
-                    >Cancelar</v-btn
+              <v-spacer></v-spacer>
+              <v-dialog v-model="dialog" max-width="70%">
+                <template v-slot:activator="{ on }">
+                  <v-btn color="primary" dark class="mb-2" v-on="on"
+                    >Cadastrar</v-btn
                   >
-                  <v-btn color="blue darken-1" text @click="save">Salvar</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item)">
-            mdi-pencil
-          </v-icon>
-          <v-icon small @click="deleteItem(item)">
-            mdi-delete
-          </v-icon>
-        </template>
-        <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
-        </template>
-      </v-data-table>
-    </template>
+                </template>
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">{{ formTitle }}</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field
+                            v-model="editedItem.name"
+                            label="Dessert name"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field
+                            v-model="editedItem.calories"
+                            label="Calories"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field
+                            v-model="editedItem.fat"
+                            label="Fat (g)"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field
+                            v-model="editedItem.carbs"
+                            label="Carbs (g)"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field
+                            v-model="editedItem.protein"
+                            label="Protein (g)"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="close"
+                      >Cancelar</v-btn
+                    >
+                    <v-btn color="blue darken-1" text @click="save"
+                      >Salvar</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-toolbar>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-icon small class="mr-2" @click="editItem(item)">
+              mdi-pencil
+            </v-icon>
+            <v-icon small @click="deleteItem(item)">
+              mdi-delete
+            </v-icon>
+          </template>
+          <template v-slot:no-data>
+            <v-btn color="primary" @click="initialize">Reset</v-btn>
+          </template>
+        </v-data-table>
+      </template>
+    </v-row>
 
     <!-- <template>
       <v-card>
@@ -307,6 +322,23 @@ export default {
     search: "",
     singleSelect: false,
     selected: [],
+    items: [
+      {
+        text: "Dashboard",
+        disabled: false,
+        href: "breadcrumbs_dashboard",
+      },
+      {
+        text: "Link 1",
+        disabled: false,
+        href: "breadcrumbs_link_1",
+      },
+      {
+        text: "Link 2",
+        disabled: true,
+        href: "breadcrumbs_link_2",
+      },
+    ],
     headers: [
       {
         text: "Dessert (100g serving)",

@@ -1,10 +1,19 @@
 <template>
   <v-row class="fill-height">
     <v-row class="fill-height">
-      <!-- DESTAQUES OU ULTIMOS ATENDIDOS -->
-      <v-row no-gutters justify="center">
-      
+      <v-row>
+        <template>
+          <v-breadcrumbs :items="items2">
+            <template v-slot:item="{ item }">
+              <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
+                {{ item.text.toUpperCase() }}
+              </v-breadcrumbs-item>
+            </template>
+          </v-breadcrumbs>
+        </template>
       </v-row>
+      <!-- DESTAQUES OU ULTIMOS ATENDIDOS -->
+      <v-row no-gutters justify="center"> </v-row>
 
       <!-- LISTA PADRAO -->
       <!-- <v-card class="mx-auto">
@@ -97,7 +106,16 @@
       </v-container>
     </v-row>
 
-    <v-btn large bottom color="pink" dark fab fixed right @click="dialog = !dialog">
+    <v-btn
+      large
+      bottom
+      color="pink"
+      dark
+      fab
+      fixed
+      right
+      @click="dialog = !dialog"
+    >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-dialog v-model="prontuario" width="70%">
@@ -135,7 +153,7 @@
               </v-container>
             </v-col>
             <v-col align-self="center" cols="12" sm="4" md="4">
-              <v-btn color="primary accent-4">Adicionar</v-btn>
+              <v-btn @click="comment" color="primary accent-4">Adicionar</v-btn>
             </v-col>
           </v-row>
 
@@ -143,16 +161,30 @@
 
           <v-row class="mx-2">
             <v-timeline>
-              <v-timeline-item v-for="(year, i) in years" :key="i" :color="year.color" small>
+              <v-timeline-item
+                v-for="(year, i) in years"
+                :key="i"
+                :color="year.color"
+                small
+              >
                 <template v-slot:opposite>
-                  <span :class="`headline font-weight-bold ${year.color}--text`" v-text="year.year"></span>
+                  <span
+                    :class="`headline font-weight-bold ${year.color}--text`"
+                    v-text="year.year"
+                  ></span>
                 </template>
                 <div class="py-4">
-                  <h2 :class="`headline font-weight-light mb-4 ${year.color}--text`">Lorem ipsum</h2>
+                  <h2
+                    :class="
+                      `headline font-weight-light mb-4 ${year.color}--text`
+                    "
+                  >
+                    Lorem ipsum
+                  </h2>
                   <div>
                     Lorem ipsum dolor sit amet, no nam oblique veritus. Commune
-                    scaevola imperdiet nec ut, sed euismod convenire principes at.
-                    Est et nobis iisque percipit, an vim zril disputando
+                    scaevola imperdiet nec ut, sed euismod convenire principes
+                    at. Est et nobis iisque percipit, an vim zril disputando
                     voluptatibus, vix an salutandi sententiae.
                   </div>
                 </div>
@@ -246,7 +278,9 @@
               <v-card-actions>
                 <v-btn text color="primary">Mais</v-btn>
                 <v-spacer />
-                <v-btn text color="primary" @click="dialog = false">Cancelar</v-btn>
+                <v-btn text color="primary" @click="dialog = false"
+                  >Cancelar</v-btn
+                >
                 <v-btn text @click="dialog = false">Salvar</v-btn>
               </v-card-actions>
             </v-card>
@@ -295,7 +329,9 @@
               <v-card-actions>
                 <v-btn text color="primary">Mais</v-btn>
                 <v-spacer />
-                <v-btn text color="primary" @click="dialog = false">Cancelar</v-btn>
+                <v-btn text color="primary" @click="dialog = false"
+                  >Cancelar</v-btn
+                >
                 <v-btn text @click="dialog = false">Salvar</v-btn>
               </v-card-actions>
             </v-card>
@@ -315,7 +351,9 @@
               <v-card-actions>
                 <v-btn text color="primary">Mais</v-btn>
                 <v-spacer />
-                <v-btn text color="primary" @click="dialog = false">Cancelar</v-btn>
+                <v-btn text color="primary" @click="dialog = false"
+                  >Cancelar</v-btn
+                >
                 <v-btn text @click="dialog = false">Salvar</v-btn>
               </v-card-actions>
             </v-card>
@@ -336,6 +374,9 @@ export default {
     dialog: false,
     prontuario: false,
     model: null,
+    events: [],
+    input: null,
+    nonce: 0,
     sexo: ["Masculino", "Femenino"],
     // states: [
     //   { name: "Florida", abbr: "FL", id: 1 },
@@ -357,33 +398,71 @@ export default {
       save() {
         this.isEditing = !this.isEditing;
         this.hasSaved = true;
-      }
+      },
+      comment() {
+        const time = new Date().toTimeString();
+        this.events.push({
+          id: this.nonce++,
+          text: this.input,
+          time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/,(match, contents, offset) => {
+              return ` ${contents
+                .split(" ")
+                .map((v) => v.charAt(0))
+                .join("")}`;
+            }
+          ),
+        });
+
+        this.input = null;
+      },
+    },
+    computed: {
+      timeline () {
+        return this.events.slice().reverse()
+      },
     },
     items: ["web", "shopping", "videos", "images", "news"],
+    items2: [
+      {
+        text: "Dashboard",
+        disabled: false,
+        href: "breadcrumbs_dashboard",
+      },
+      {
+        text: "Link 1",
+        disabled: false,
+        href: "breadcrumbs_link_1",
+      },
+      {
+        text: "Link 2",
+        disabled: true,
+        href: "breadcrumbs_link_2",
+      },
+    ],
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 
     years: [
       {
         color: "cyan",
-        year: "2000"
+        year: "2000",
       },
       {
         color: "green",
-        year: "1990"
+        year: "1990",
       },
       {
         color: "pink",
-        year: "1980"
+        year: "1980",
       },
       {
         color: "amber",
-        year: "1970"
+        year: "1970",
       },
       {
         color: "orange",
-        year: "1960"
-      }
+        year: "1960",
+      },
     ],
     items1: [
       { text: "State 1" },
@@ -392,7 +471,7 @@ export default {
       { text: "State 4" },
       { text: "State 5" },
       { text: "State 6" },
-      { text: "State 7" }
+      { text: "State 7" },
     ],
     states: [
       "Acre (AC)",
@@ -421,131 +500,131 @@ export default {
       "Santa Catarina (SC)",
       "São Paulo (SP)",
       "Sergipe (SE)",
-      "Tocantins (TO)"
+      "Tocantins (TO)",
     ],
     cards: [
       {
         title: "Pre-fab homes",
         src: "https://randomuser.me/api/portraits/women/80.jpg",
-        flex: 2
+        flex: 2,
       },
       {
         title: "Favorite road trips",
         src: "https://randomuser.me/api/portraits/lego/6.jpg",
-        flex: 2
+        flex: 2,
       },
       {
         title: "Best airlines",
         src: "https://randomuser.me/api/portraits/women/50.jpg",
-        flex: 2
+        flex: 2,
       },
       {
         title: "Pre-fab homes",
         src: "https://randomuser.me/api/portraits/women/60.jpg",
-        flex: 2
+        flex: 2,
       },
       {
         title: "Favorite road trips",
         src: "https://randomuser.me/api/portraits/women/66.jpg",
-        flex: 2
+        flex: 2,
       },
       {
         title: "Best airlines",
         src: "https://randomuser.me/api/portraits/women/61.jpg",
-        flex: 2
+        flex: 2,
       },
       {
         title: "Pre-fab homes",
         src: "https://randomuser.me/api/portraits/women/22.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Favorite road trips",
         src: "https://randomuser.me/api/portraits/women/70.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Best airlines",
         src: "https://randomuser.me/api/portraits/women/85.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Pre-fab homes",
         src: "https://randomuser.me/api/portraits/lego/6.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Favorite road trips",
         src: "https://randomuser.me/api/portraits/lego/6.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Best airlines",
         src: "https://randomuser.me/api/portraits/women/44.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Pre-fab homes",
         src: "https://randomuser.me/api/portraits/women/80.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Favorite road trips",
         src: "https://randomuser.me/api/portraits/lego/6.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Best airlines",
         src: "https://randomuser.me/api/portraits/women/50.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Pre-fab homes",
         src: "https://randomuser.me/api/portraits/women/60.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Favorite road trips",
         src: "https://randomuser.me/api/portraits/women/66.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Best airlines",
         src: "https://randomuser.me/api/portraits/women/61.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Pre-fab homes",
         src: "https://randomuser.me/api/portraits/women/22.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Favorite road trips",
         src: "https://randomuser.me/api/portraits/women/70.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Best airlines",
         src: "https://randomuser.me/api/portraits/women/85.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Pre-fab homes",
         src: "https://randomuser.me/api/portraits/lego/6.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Favorite road trips",
         src: "https://randomuser.me/api/portraits/lego/6.jpg",
-        flex: 3
+        flex: 3,
       },
       {
         title: "Best airlines",
         src: "https://randomuser.me/api/portraits/women/44.jpg",
-        flex: 3
-      }
-    ]
-  })
+        flex: 3,
+      },
+    ],
+  }),
 };
 </script>
 
